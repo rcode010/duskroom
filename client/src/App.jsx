@@ -1,31 +1,17 @@
 import { useState } from "react";
-import "./App.css";
-import { io } from 'socket.io-client';
+import socket from "./socket.js";
 import { useEffect } from "react";
-
-const socket = io("http://localhost:3000")
+import Home from "./pages/Home.jsx";
+import ChatRoom from "./pages/ChatRoom.jsx";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
-  const [message, setMessage]= useState("");
-    const [messageRecieved, setmMssageRecieved]= useState("");
-
-  const sendMessage = ()=>{
-    socket.emit("message",{data:message})
-  }
-  useEffect(()=>{
-    socket.on('receive_message',(data)=>{
-      setmMssageRecieved(data)
-    })
-  },[socket])
+ 
   return (
-    <>
-      <input
-      value={message}
-      onChange={(e)=>setMessage(e.target.value)}
-      />
-      <button onClick={sendMessage}>send</button>
-      <p>{messageRecieved}</p>
-    </>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/room/:roomId" element={<ChatRoom />} />
+    </Routes>
   );
 }
 
