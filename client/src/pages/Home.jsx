@@ -25,17 +25,14 @@ export default function Home() {
 
   const navigate = useNavigate();
 
-  const handleAction = (e) => {
+  const handleAction = async(e) => {
     e.preventDefault();
     if (mode === "create") {
       const roomId = Math.floor(100000 + Math.random() * 900000).toString();
       setCode(roomId);
-      console.log(roomId);
-      socket.emit("createRoom", { roomId,name });
+      socket.emit("createRoom", { roomId, name });
       navigate(`/room/${roomId}`, { state: { name } });
     } else {
-
-      socket.emit("joinRoom", { code,name });
       navigate(`/room/${code}`, { state: { name } });
     }
   };
